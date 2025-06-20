@@ -9,8 +9,10 @@ import com.intellij.testFramework.TestDataFile
 import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.cliArgument
 import org.jetbrains.kotlin.klib.KlibCompilerEdition
+import org.jetbrains.kotlin.klib.KlibCompilerEdition.CURRENT
 import org.jetbrains.kotlin.klib.PartialLinkageTestUtils
 import org.jetbrains.kotlin.klib.PartialLinkageTestUtils.Dependencies
+import org.jetbrains.kotlin.klib.PartialLinkageTestUtils.Dependency
 import org.jetbrains.kotlin.klib.PartialLinkageTestUtils.ModuleBuildDirs
 import java.io.File
 
@@ -30,8 +32,6 @@ abstract class AbstractJsPartialLinkageTestCase(compilerType: CompilerType) : Ab
         compilerEdition: KlibCompilerEdition,
         compilerArguments: List<String>,
     ) {
-        require(compilerEdition == KlibCompilerEdition.CURRENT) { "Partial Linkage tests accept only Current compiler" }
-
         val kotlinSourceFilePaths = composeSourceFile(buildDirs)
 
         // Build KLIB:
@@ -48,9 +48,26 @@ abstract class AbstractJsPartialLinkageTestCase(compilerType: CompilerType) : Ab
                 // This flag is used to disable the warning.
                 K2JSCompilerArguments::dontWarnOnErrorSuppression.cliArgument
             ),
-            dependencies.toCompilerArgs(),
+            dependencies.replaceStdlib(compilerEdition).toCompilerArgs(),
             compilerArguments,
-            kotlinSourceFilePaths
+            kotlinSourceFilePaths,
+            compilerEdition = compilerEdition,
         )
     }
+
+    private fun Dependencies.replaceStdlib(compilerEdition: KlibCompilerEdition): Dependencies {
+        if (compilerEdition == CURRENT) return this
+
+        return Dependencies(
+            regularDependencies = regularDependencies.replaceStdLib(),
+            friendDependencies = friendDependencies
+        )
+    }
+
+    private fun Set<Dependency>.replaceStdLib() = map {
+        if (it.moduleName == "stdlib")
+            Dependency("stdlib", JsKlibTestSettings.customJsCompilerArtifacts.jsStdLib)
+        else
+            it
+    }.toSet()
 }
