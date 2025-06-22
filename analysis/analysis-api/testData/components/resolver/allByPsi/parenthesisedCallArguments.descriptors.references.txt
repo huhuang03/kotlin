@@ -1,0 +1,254 @@
+KtNameReferenceExpression(11,14): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtNameReferenceExpression(43,46): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtNameReferenceExpression(78,81): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtNameReferenceExpression(86,89): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtNameReferenceExpression(132,135): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtNameReferenceExpression(152,157): 'MySam'
+  KtSimpleNameReference:
+    (in ROOT) fun interface MySam
+
+KtCallExpression(199,205): 'foo(3)'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(199,202): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(210,220): 'foo(((5)))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(210,213): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(225,239): 'foo(x = ((5)))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(225,228): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(229,230): 'x'
+  KtSimpleNameReference:
+    x: kotlin.Int
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(244,263): 'foo((((5 as Int))))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(244,247): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtOperationReferenceExpression(253,255): 'as'
+  KtSimpleNameReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(256,259): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtCallExpression(268,291): 'foo(x = (((5 as Int))))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(268,271): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(272,273): 'x'
+  KtSimpleNameReference:
+    x: kotlin.Int
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtOperationReferenceExpression(281,283): 'as'
+  KtSimpleNameReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(284,287): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtCallExpression(297,365): 'foo((((when (((value))) {'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(297,300): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(312,317): 'value'
+  KtSimpleNameReference:
+    (in <local>: main) var value: kotlin.Int
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(371,391): 'foo(((((++value)))))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(371,374): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtOperationReferenceExpression(379,381): '++'
+  KtSimpleNameReference:
+    (in kotlin.Int) operator fun inc(): kotlin.Int
+
+KtNameReferenceExpression(381,386): 'value'
+  KtSimpleNameReference:
+    (in <local>: main) var value: kotlin.Int
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(397,423): 'fooVararg((5), (5 as Int))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(397,406): 'fooVararg'
+  KtSimpleNameReference:
+    (in ROOT) fun fooVararg(vararg x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtOperationReferenceExpression(415,417): 'as'
+  KtSimpleNameReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(418,421): 'Int'
+  KtSimpleNameReference:
+    (in kotlin) class Intprivate constructor : kotlin.Number(), kotlin.Comparable<kotlin.Int>, java.io.Serializable
+
+KtCallExpression(428,455): 'fooVararg(*(intArrayOf(5)))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(428,437): 'fooVararg'
+  KtSimpleNameReference:
+    (in ROOT) fun fooVararg(vararg x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(440,453): 'intArrayOf(5)'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(440,450): 'intArrayOf'
+  KtSimpleNameReference:
+    (in kotlin) fun intArrayOf(vararg elements: kotlin.Int): kotlin.IntArray
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(460,490): 'fooVararg(x = (intArrayOf(5)))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(460,469): 'fooVararg'
+  KtSimpleNameReference:
+    (in ROOT) fun fooVararg(vararg x: kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(470,471): 'x'
+  KtSimpleNameReference:
+    vararg x: kotlin.Int
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(475,488): 'intArrayOf(5)'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(475,485): 'intArrayOf'
+  KtSimpleNameReference:
+    (in kotlin) fun intArrayOf(vararg elements: kotlin.Int): kotlin.IntArray
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(496,520): 'fooLambda((({ _ -> 5})))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(496,505): 'fooLambda'
+  KtSimpleNameReference:
+    (in ROOT) fun fooLambda(lambda: (x: kotlin.Int) -> kotlin.Int)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(526,548): 'foo((((MySam { 5 }))))'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(526,529): 'foo'
+  KtSimpleNameReference:
+    (in ROOT) fun foo(sam: MySam)
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
+
+KtCallExpression(533,544): 'MySam { 5 }'
+  KtInvokeFunctionReference:
+    Nothing (Unresolved reference)
+
+KtNameReferenceExpression(533,538): 'MySam'
+  KtSimpleNameReference:
+    (in ROOT) MySam(function: () -> kotlin.Int): MySam
+
+  SyntheticPropertyAccessorReference:
+    Nothing (Unresolved reference)
