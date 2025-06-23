@@ -623,7 +623,7 @@ class JavaClassUseSiteMemberScope(
             declaredFunctionCopyWithParameterTypesFromSupertype
         } else {
             // Collect synthetic function which is a hidden copy of declared one with unerased parameters
-            session.renamedFunctionsCache.accidentalOverrideWithDeclaredFunctionHiddenCopyCache.getValue(
+            session.renamedFunctionsCache.accidentalOverrideWithDeclaredFunctionHiddenCopyIfDeclaredFunctionParametersAreErasedCache.getValue(
                 accidentalOverrideWithDeclaredFunction to name,
                 AccidentalOverrideWithDeclaredFunctionHiddenCopyCreationContext(explicitlyDeclaredFunctionWithErasedValueParameters, klass)
             )
@@ -663,16 +663,10 @@ class JavaClassUseSiteMemberScope(
             relevantFunctionFromSupertypes
         )
         return if (thereIsClashBetweenDeclaredAndInheritedFunction) {
-            val newSymbol = FirNamedFunctionSymbol(relevantFunctionFromSupertypes.callableId)
-            val accidentalOverrideWithDeclaredFunctionHiddenCopy = buildSimpleFunctionCopy(relevantFunctionFromSupertypes.fir) {
-                this.name = name
-                symbol = newSymbol
-                dispatchReceiverType = klass.defaultType()
-            }.apply {
-                isHiddenToOvercomeSignatureClash = true
-            }
-            // Collect synthetic function which is a hidden copy of inherited one with unerased parameters
-            accidentalOverrideWithDeclaredFunctionHiddenCopy.symbol
+            session.renamedFunctionsCache.accidentalOverrideWithDeclaredFunctionHiddenCopyIfInheritedFunctionParametersAreErasedCache.getValue(
+                relevantFunctionFromSupertypes to name,
+                klass
+            )
         } else {
             relevantFunctionFromSupertypes
         }
@@ -1123,7 +1117,7 @@ class JavaClassUseSiteMemberScope(
             return method.symbol.takeIf { !allParametersAreAny }
         }
 
-        fun createAccidentalOverrideWithDeclaredFunctionHiddenCopy(
+        fun createAccidentalOverrideWithDeclaredFunctionHiddenIfDeclaredFunctionParametersAreErasedCopy(
             accidentalOverrideWithDeclaredFunction: FirNamedFunctionSymbol,
             name: Name,
             explicitlyDeclaredFunctionWithErasedValueParameters: FirNamedFunctionSymbol,
@@ -1141,6 +1135,23 @@ class JavaClassUseSiteMemberScope(
             }
             return accidentalOverrideWithDeclaredFunctionHiddenCopy.symbol
         }
+
+        fun createAccidentalOverrideWithDeclaredFunctionHiddenIfInheritedFunctionParametersAreErasedCopy(
+            relevantFunctionFromSupertypes: FirNamedFunctionSymbol,
+            name: Name,
+            klass: FirJavaClass
+        ): FirNamedFunctionSymbol {
+            val newSymbol = FirNamedFunctionSymbol(relevantFunctionFromSupertypes.callableId)
+            val accidentalOverrideWithDeclaredFunctionHiddenCopy = buildSimpleFunctionCopy(relevantFunctionFromSupertypes.fir) {
+                this.name = name
+                symbol = newSymbol
+                dispatchReceiverType = klass.defaultType()
+            }.apply {
+                isHiddenToOvercomeSignatureClash = true
+            }
+            // Collect synthetic function which is a hidden copy of inherited one with unerased parameters
+            return accidentalOverrideWithDeclaredFunctionHiddenCopy.symbol
+        }
     }
 }
 
@@ -1156,12 +1167,14 @@ class FirRenamedForOverrideSymbolsStorage(cachesFactory: FirCachesFactory) : Fir
 
     val declaredFunctionCopyWithParameterTypesFromSupertypeCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, FirNamedFunctionSymbol?, FirNamedFunctionSymbol> =
         cachesFactory.createCache { (explicitlyDeclaredFunctionWithErasedValueParameters, name), relevantFunctionFromSupertypes ->
-            JavaClassUseSiteMemberScope.createDeclaredFunctionCopyWithParameterTypesFromSupertype(explicitlyDeclaredFunctionWithErasedValueParameters, name, relevantFunctionFromSupertypes)
+            JavaClassUseSiteMemberScope.createDeclaredFunctionCopyWithParameterTypesFromSupertype(
+                explicitlyDeclaredFunctionWithErasedValueParameters, name, relevantFunctionFromSupertypes
+            )
         }
 
-    val accidentalOverrideWithDeclaredFunctionHiddenCopyCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, FirNamedFunctionSymbol, AccidentalOverrideWithDeclaredFunctionHiddenCopyCreationContext> =
+    val accidentalOverrideWithDeclaredFunctionHiddenCopyIfDeclaredFunctionParametersAreErasedCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, FirNamedFunctionSymbol, AccidentalOverrideWithDeclaredFunctionHiddenCopyCreationContext> =
         cachesFactory.createCache { (accidentalOverrideWithDeclaredFunction, name), (explicitlyDeclaredFunctionWithErasedValueParameters, klass) ->
-            JavaClassUseSiteMemberScope.createAccidentalOverrideWithDeclaredFunctionHiddenCopy(
+            JavaClassUseSiteMemberScope.createAccidentalOverrideWithDeclaredFunctionHiddenIfDeclaredFunctionParametersAreErasedCopy(
                 accidentalOverrideWithDeclaredFunction,
                 name,
                 explicitlyDeclaredFunctionWithErasedValueParameters,
@@ -1173,6 +1186,13 @@ class FirRenamedForOverrideSymbolsStorage(cachesFactory: FirCachesFactory) : Fir
         val explicitlyDeclaredFunctionWithErasedValueParameters: FirNamedFunctionSymbol,
         val klass: FirJavaClass,
     )
+
+    val accidentalOverrideWithDeclaredFunctionHiddenCopyIfInheritedFunctionParametersAreErasedCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, FirNamedFunctionSymbol, FirJavaClass> =
+        cachesFactory.createCache { (relevantFunctionFromSupertypes, name), klass ->
+            JavaClassUseSiteMemberScope.createAccidentalOverrideWithDeclaredFunctionHiddenIfInheritedFunctionParametersAreErasedCopy(
+                relevantFunctionFromSupertypes, name, klass,
+            )
+        }
 }
 
 private val FirSession.renamedFunctionsCache: FirRenamedForOverrideSymbolsStorage by FirSession.sessionComponentAccessor()
