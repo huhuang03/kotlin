@@ -20,21 +20,18 @@ class DeepCopyTypeRemapper(
     lateinit var deepCopy: DeepCopyIrTreeWithSymbols
 
     override fun remapTypeOrNull(type: IrType): IrType? {
-        return when (type) {
-            is IrSimpleType -> {
-                val newClassifier = symbolRemapper.getReferencedClassifier(type.classifier)
-                val typeParameters = remapTypeArguments(type.arguments)
-                if (type.annotations.isEmpty() && typeParameters == null && newClassifier == type.classifier && type.abbreviation == null) return type
-                IrSimpleTypeImpl(
-                    newClassifier,
-                    type.nullability,
-                    typeParameters ?: type.arguments,
-                    type.annotations.memoryOptimizedMap { it.transform(deepCopy, null) as IrConstructorCall },
-                    type.abbreviation?.remapTypeAbbreviation()
-                )
-            }
-            else -> null
-        }
+        if (type !is IrSimpleType) return null
+        val newClassifier = symbolRemapper.getReferencedClassifier(type.classifier)
+        val typeParameters = remapTypeArguments(type.arguments)
+        if (type.annotations.isEmpty() && typeParameters == null && newClassifier == type.classifier && type.abbreviation == null)
+            return type
+        return IrSimpleTypeImpl(
+            newClassifier,
+            type.nullability,
+            typeParameters ?: type.arguments,
+            type.annotations.memoryOptimizedMap { it.transform(deepCopy, null) as IrConstructorCall },
+            type.abbreviation?.remapTypeAbbreviation()
+        )
     }
 
     private fun IrTypeAbbreviation.remapTypeAbbreviation() =
