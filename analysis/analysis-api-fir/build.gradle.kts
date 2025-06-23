@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 plugins {
     kotlin("jvm")
     id("jps-compatible")
+    id("generated-sources")
 }
 
 dependencies {
@@ -92,36 +93,15 @@ allprojects {
     }
 }
 
-val generatorClasspath by configurations.creating
-
-dependencies {
-    generatorClasspath(project(":analysis:analysis-api-fir:analysis-api-fir-generator"))
-}
-
-val generateCode by tasks.registering(NoDebugJavaExec::class) {
-    val generatorRoot = "$projectDir/analysis/analysis-api-fir/analysis-api-fir-generator/src/"
-
-    val generatorConfigurationFiles = fileTree(generatorRoot) {
-        include("**/*.kt")
+generatedSourcesTask(
+    taskName = "generateDiagnostics",
+    generatorProject = ":analysis:analysis-api-fir:analysis-api-fir-generator",
+    generatorRoot = "$projectDir/analysis/analysis-api-fir/analysis-api-fir-generator/src/",
+    generatorMainClass = "org.jetbrains.kotlin.analysis.api.fir.generator.MainKt",
+    argsProvider = { generationRoot ->
+        listOf(
+            "org.jetbrains.kotlin.analysis.api.fir.diagnostics",
+            generationRoot.toString(),
+        )
     }
-
-    inputs.files(generatorConfigurationFiles)
-
-    // Should be in sync with org.jetbrains.kotlin.analysis.api.fir.generator.DiagnosticClassGenerator
-    val generatedOutputDir = project.layout.projectDirectory.dir("src/org/jetbrains/kotlin/analysis/api/fir/diagnostics")
-    outputs.files(
-        generatedOutputDir.file("KaFirDiagnostics.kt"),
-        generatedOutputDir.file("KaFirDiagnosticsImpl.kt"),
-        generatedOutputDir.file("KaFirDataClassConverters.kt"),
-        generatedOutputDir.file("KaFirArgumentsConverter.kt"),
-    )
-
-    workingDir = rootDir
-    classpath = generatorClasspath
-    mainClass.set("org.jetbrains.kotlin.analysis.api.fir.generator.MainKt")
-    systemProperties["line.separator"] = "\n"
-}
-
-val compileKotlin by tasks
-
-compileKotlin.dependsOn(generateCode)
+)
