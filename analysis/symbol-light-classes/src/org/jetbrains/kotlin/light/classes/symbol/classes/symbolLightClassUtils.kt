@@ -493,15 +493,15 @@ internal fun KaSession.hasValueClassInReturnType(callableSymbol: KaCallableSymbo
  * Whether a declaration would have a mangled name due to value classes in its signature
  */
 internal fun hasMangledNameDueValueClassesInSignature(
-    hasNonReturnValueClass: Boolean,
-    hasReturnValueClass: Boolean,
+    hasValueClassInParameterType: Boolean,
+    hasValueClassInReturnType: Boolean,
     isTopLevel: Boolean,
 ): Boolean = when {
     // Non-return type is a value class -> mangled name
-    hasNonReturnValueClass -> true
+    hasValueClassInParameterType -> true
 
     // No value class in signature at all -> no mangling
-    !hasReturnValueClass -> false
+    !hasValueClassInReturnType -> false
 
     // For top-level declarations a value class in return position don't lead to mangling
     else -> !isTopLevel

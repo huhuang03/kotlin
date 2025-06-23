@@ -71,15 +71,15 @@ internal class MethodGenerationResult(val isRegularMethodRequired: Boolean, val 
  * Analyzes the requirement for regular and boxed method generation based on given parameters.
  *
  * @param exposeBoxedMode The [JvmExposeBoxedMode] for the method.
- * @param hasNonReturnValueClass Whether any of the method's parameters contain a value class.
- * @param hasReturnValueClass Whether the method's return type is a value class.
+ * @param hasValueClassInParameterType Whether any of the method's parameters contain a value class.
+ * @param hasValueClassInReturnType Whether the method's return type is a value class.
  * @param hasMangledNameDueValueClasses Whether the method's name is mangled due to value classes.
  * @param hasJvmNameAnnotation Whether the method has a [JvmName] annotation.
  */
 internal fun methodGeneration(
     exposeBoxedMode: JvmExposeBoxedMode,
-    hasNonReturnValueClass: Boolean,
-    hasReturnValueClass: Boolean,
+    hasValueClassInParameterType: Boolean,
+    hasValueClassInReturnType: Boolean,
     hasMangledNameDueValueClasses: Boolean,
     hasJvmNameAnnotation: Boolean,
 ): MethodGenerationResult {
@@ -87,7 +87,7 @@ internal fun methodGeneration(
     var isRegularAccessorRequired = false
 
     // Explicit mode -> a boxed method is requested (even if it is a JVM name clash)
-    if (exposeBoxedMode == JvmExposeBoxedMode.EXPLICIT && (hasNonReturnValueClass || hasReturnValueClass)) {
+    if (exposeBoxedMode == JvmExposeBoxedMode.EXPLICIT && (hasValueClassInParameterType || hasValueClassInReturnType)) {
         isBoxedAccessorRequired = true
     }
 
@@ -106,7 +106,7 @@ internal fun methodGeneration(
             !hasJvmNameAnnotation -> true
 
             // At least one parameter has a value class -> the boxed method won't lead to a JVM name clash
-            else -> hasNonReturnValueClass
+            else -> hasValueClassInParameterType
         }
     } else {
         // Unmangled name -> regular method is needed

@@ -387,30 +387,32 @@ internal class SymbolLightAccessorMethod private constructor(
         private class Context private constructor(
             val property: KaPropertySymbol,
             val destinationLightClass: SymbolLightClassBase,
+            /** Whether the static modifier should be suppressed for the accessors. */
             val suppressStatic: Boolean,
             val isTopLevel: Boolean,
+            /** Whether the accessors should be created only if they are marked with [JvmStatic] annotation. */
             val onlyJvmStatic: Boolean,
-            private val hasNonReturnValueClass: Boolean,
-            private val hasReturnValueClass: Boolean,
+            private val hasValueClassInParameterType: Boolean,
+            private val hasValueClassInReturnType: Boolean,
             private val jvmExposeBoxedMode: JvmExposeBoxedMode,
         ) {
             fun jvmExposeBoxedMode(accessor: KaPropertyAccessorSymbol): JvmExposeBoxedMode =
                 if (accessor.hasJvmExposeBoxedAnnotation()) JvmExposeBoxedMode.EXPLICIT else jvmExposeBoxedMode
 
-            fun hasNonReturnValueClass(accessor: KaPropertyAccessorSymbol): Boolean =
+            fun hasValueClassInParameterType(accessor: KaPropertyAccessorSymbol): Boolean =
                 if (accessor is KaPropertySetterSymbol) {
                     // Setter uses the return type as a value parameter
-                    hasNonReturnValueClass || hasReturnValueClass
+                    hasValueClassInParameterType || hasValueClassInReturnType
                 } else {
-                    hasNonReturnValueClass
+                    hasValueClassInParameterType
                 }
 
-            fun hasReturnValueClass(accessor: KaPropertyAccessorSymbol): Boolean =
+            fun hasValueClassInReturnType(accessor: KaPropertyAccessorSymbol): Boolean =
                 if (accessor is KaPropertySetterSymbol) {
                     // Setter has a Unit return type
                     false
                 } else {
-                    hasReturnValueClass
+                    hasValueClassInReturnType
                 }
 
             companion object {
@@ -428,8 +430,8 @@ internal class SymbolLightAccessorMethod private constructor(
                         suppressStatic = suppressStatic,
                         isTopLevel = isTopLevel,
                         onlyJvmStatic = onlyJvmStatic,
-                        hasNonReturnValueClass = hasValueClassInSignature(property, skipReturnTypeCheck = true),
-                        hasReturnValueClass = hasValueClassInReturnType(property),
+                        hasValueClassInParameterType = hasValueClassInSignature(property, skipReturnTypeCheck = true),
+                        hasValueClassInReturnType = hasValueClassInReturnType(property),
                         jvmExposeBoxedMode = jvmExposeBoxedMode(property),
                     )
                 }
@@ -503,19 +505,19 @@ internal class SymbolLightAccessorMethod private constructor(
             val exposeBoxedMode = context.jvmExposeBoxedMode(accessor)
             val hasJvmNameAnnotation = accessor.hasJvmNameAnnotation()
 
-            val hasNonReturnValueClass = context.hasNonReturnValueClass(accessor)
-            val hasReturnValueClass = context.hasReturnValueClass(accessor)
+            val hasValueClassInParameterType = context.hasValueClassInParameterType(accessor)
+            val hasValueClassInReturnType = context.hasValueClassInReturnType(accessor)
 
             val hasMangledNameDueValueClassesInSignature = hasMangledNameDueValueClassesInSignature(
-                hasNonReturnValueClass = hasNonReturnValueClass,
-                hasReturnValueClass = hasReturnValueClass,
+                hasValueClassInParameterType = hasValueClassInParameterType,
+                hasValueClassInReturnType = hasValueClassInReturnType,
                 isTopLevel = context.isTopLevel,
             )
 
             val generationResult = methodGeneration(
                 exposeBoxedMode = exposeBoxedMode,
-                hasNonReturnValueClass = hasNonReturnValueClass,
-                hasReturnValueClass = hasReturnValueClass,
+                hasValueClassInParameterType = hasValueClassInParameterType,
+                hasValueClassInReturnType = hasValueClassInReturnType,
                 hasMangledNameDueValueClasses = hasMangledNameDueValueClassesInSignature,
                 hasJvmNameAnnotation = hasJvmNameAnnotation,
             )
