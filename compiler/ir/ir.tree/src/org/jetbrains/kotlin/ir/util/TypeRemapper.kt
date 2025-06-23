@@ -24,7 +24,7 @@ abstract class AbstractTypeRemapper() : TypeRemapper {
     override fun enterScope(irTypeParametersContainer: IrTypeParametersContainer) {}
     override fun leaveScope() {}
 
-    // in all functions below null means can reuse
+    // In all functions below, `null` means that the value has not changed after remapping and can be reused at the call site.
     protected abstract fun remapTypeOrNull(type: IrType): IrType?
 
     protected fun remapTypeArguments(arguments: List<IrTypeArgument>): List<IrTypeArgument>? {
