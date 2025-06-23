@@ -520,6 +520,7 @@ internal class SymbolLightAccessorMethod private constructor(
                 hasValueClassInReturnType = hasValueClassInReturnType,
                 hasMangledNameDueValueClasses = hasMangledNameDueValueClassesInSignature,
                 hasJvmNameAnnotation = hasJvmNameAnnotation,
+                isSuspend = false,
             )
 
             if (!generationResult.isAnyMethodRequired) return

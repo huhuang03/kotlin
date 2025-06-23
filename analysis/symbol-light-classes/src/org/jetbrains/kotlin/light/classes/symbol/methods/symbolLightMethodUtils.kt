@@ -82,6 +82,7 @@ internal fun methodGeneration(
     hasValueClassInReturnType: Boolean,
     hasMangledNameDueValueClasses: Boolean,
     hasJvmNameAnnotation: Boolean,
+    isSuspend: Boolean,
 ): MethodGenerationResult {
     var isBoxedAccessorRequired = false
     var isRegularAccessorRequired = false
@@ -101,6 +102,9 @@ internal fun methodGeneration(
 
             // No implicit feature -> no boxed methods can be auto-generated
             exposeBoxedMode != JvmExposeBoxedMode.IMPLICIT -> false
+
+            // Suspend function -> no boxed methods can be auto-generated
+            isSuspend -> false
 
             // No JvmName -> the default method has a mangled name, so the boxed method can be generated
             !hasJvmNameAnnotation -> true
