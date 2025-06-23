@@ -174,9 +174,12 @@ abstract class AbstractModularizedTest : KtUsefulTestCase() {
         val moduleName = MODULE_NAME_FILTER
         val moduleNameRegexOutFilter = MODULE_NAME_REGEX_OUT?.toRegex()
         val files = root.listFiles() ?: emptyArray()
-        val modules = files.filter {
+        val filteredFiles = files.filter {
             it.extension == "xml" && (moduleNameRegexOutFilter == null || !it.name.matches(moduleNameRegexOutFilter))
         }
+        println("MODULE_NAME_REGEX_OUT: $moduleNameRegexOutFilter")
+        println("FILES: ${filteredFiles.map { it.absolutePath }}")
+        val modules = filteredFiles
             .sortedBy { it.lastModified() }
             .flatMap { loadModuleDumpFile(it) }
             .sortedBy { it.timestamp }
