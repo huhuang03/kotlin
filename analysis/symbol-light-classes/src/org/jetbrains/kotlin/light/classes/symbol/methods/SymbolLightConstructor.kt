@@ -124,8 +124,8 @@ internal class SymbolLightConstructor private constructor(
                 createMethodsJvmOverloadsAware(
                     declaration = constructor,
                     methodIndexBase = METHOD_INDEX_BASE,
-                ) { methodIndex, valueParameterPickMask, hasValueClassInSignature ->
-                    if (hasValueClassInSignature && exposeBoxedMode != JvmExposeBoxedMode.NONE) {
+                ) { methodIndex, valueParameterPickMask, hasValueClassInParameterType ->
+                    if (hasValueClassInParameterType && exposeBoxedMode != JvmExposeBoxedMode.NONE) {
                         result += SymbolLightConstructor(
                             constructorSymbol = constructor,
                             containingClass = lightClass,

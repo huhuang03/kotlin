@@ -260,22 +260,22 @@ internal class SymbolLightSimpleMethod private constructor(
 
             val hasJvmNameAnnotation = functionSymbol.hasJvmNameAnnotation()
             val exposeBoxedMode = jvmExposeBoxedMode(functionSymbol)
-            val hasReturnValueClass = hasValueClassInReturnType(functionSymbol)
+            val hasValueClassInReturnType = hasValueClassInReturnType(functionSymbol)
 
             createMethodsJvmOverloadsAware(
                 declaration = functionSymbol,
                 methodIndexBase = methodIndex,
             ) { methodIndex, valueParameterPickMask, hasValueClassInParameterType ->
                 val hasMangledNameDueValueClassesInSignature = hasMangledNameDueValueClassesInSignature(
-                    hasNonReturnValueClass = hasValueClassInParameterType,
-                    hasReturnValueClass = hasReturnValueClass,
+                    hasValueClassInParameterType = hasValueClassInParameterType,
+                    hasValueClassInReturnType = hasValueClassInReturnType,
                     isTopLevel = isTopLevel,
                 )
 
                 val generationResult = methodGeneration(
                     exposeBoxedMode = exposeBoxedMode,
-                    hasNonReturnValueClass = hasValueClassInParameterType,
-                    hasReturnValueClass = hasReturnValueClass,
+                    hasValueClassInParameterType = hasValueClassInParameterType,
+                    hasValueClassInReturnType = hasValueClassInReturnType,
                     hasMangledNameDueValueClasses = hasMangledNameDueValueClassesInSignature,
                     hasJvmNameAnnotation = hasJvmNameAnnotation,
                 )
