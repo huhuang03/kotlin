@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.analysis.api.KaIdeApi
 import org.jetbrains.kotlin.analysis.api.KaImplementationDetail
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.getModule
+import org.jetbrains.kotlin.analysis.api.impl.base.KaBaseSession
 import org.jetbrains.kotlin.analysis.api.lifetime.withValidityAssertion
 import org.jetbrains.kotlin.analysis.api.projectStructure.KaModule
 import org.jetbrains.kotlin.analysis.api.utils.errors.withKaModuleEntry
@@ -75,11 +76,15 @@ class KaBaseIllegalPsiException private constructor(
 
 private val allowIllegalPsiAccess = ThreadLocal.withInitial { false }
 
+/**
+ * **Important**: this function has to be guarded by [withValidityAssertion]
+ */
 @KaImplementationDetail
 context(component: KaBaseSessionComponent<S>)
-fun <S : KaSession> PsiElement.checkValidity() = with(component.analysisSession) {
-    if (!canBeAnalysed() && Registry.`is`("kotlin.analysis.validate.psi.input", true) && !allowIllegalPsiAccess.get()) {
-        throw KaBaseIllegalPsiException.create(this, this@checkValidity)
+fun <S : KaSession> PsiElement.checkValidity() {
+    val session = component.analysisSession as KaBaseSession
+    if (!session.canBeAnalysedImpl(this) && Registry.`is`("kotlin.analysis.validate.psi.input", true) && !allowIllegalPsiAccess.get()) {
+        throw KaBaseIllegalPsiException.create(session, this)
     }
 }
 
