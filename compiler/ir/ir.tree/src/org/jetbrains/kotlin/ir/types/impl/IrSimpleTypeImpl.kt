@@ -89,8 +89,9 @@ fun IrSimpleTypeImpl(
     arguments: List<IrTypeArgument>,
     annotations: List<IrConstructorCall>,
     abbreviation: IrTypeAbbreviation? = null
-) = IrSimpleTypeImpl(classifier, SimpleTypeNullability.fromHasQuestionMark(hasQuestionMark), arguments, annotations, abbreviation)
-
+): IrSimpleType = IrSimpleTypeImpl(
+    classifier, SimpleTypeNullability.fromHasQuestionMark(hasQuestionMark), arguments, annotations, abbreviation
+)
 
 fun IrSimpleTypeImpl(
     classifier: IrClassifierSymbol,
