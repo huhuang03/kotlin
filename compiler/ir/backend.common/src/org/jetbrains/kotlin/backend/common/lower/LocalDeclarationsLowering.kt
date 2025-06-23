@@ -59,7 +59,6 @@ val BOUND_VALUE_PARAMETER by IrDeclarationOriginImpl.Synthetic
 val BOUND_RECEIVER_PARAMETER by IrDeclarationOriginImpl.Synthetic
 
 private var IrSymbolOwner.scopeWithCounter: ScopeWithCounter? by irAttribute(copyByDefault = false)
-private var IrClass.methodScopesWithCounter: MutableMap<Name, ScopeWithCounter>? by irAttribute(copyByDefault = false)
 
 /**
  * Prepares local declarations like classes and functions for being lifted into the nearest declaration container, adding explicit
@@ -135,6 +134,7 @@ open class LocalDeclarationsLowering(
     val newParameterToOld: MutableMap<IrValueParameter, IrValueParameter> = mutableMapOf(),
     val oldParameterToNew: MutableMap<IrValueParameter, IrValueParameter> = mutableMapOf(),
 ) : BodyLoweringPass {
+    internal val methodScopesWithCounter: MutableMap<IrClass, MutableMap<Name, ScopeWithCounter>> = mutableMapOf()
 
     override fun lower(irFile: IrFile) {
         runOnFilePostfix(irFile)
@@ -221,10 +221,8 @@ open class LocalDeclarationsLowering(
 
     private fun IrFunction.getOrCreateScopeWithCounter(): ScopeWithCounter? {
         val klass = parentClassOrNull ?: return null
-        if (klass.methodScopesWithCounter == null) {
-            klass.methodScopesWithCounter = mutableMapOf()
-        }
-        return klass.methodScopesWithCounter!!.getOrPut(this.name) { ScopeWithCounter(this) }
+        return methodScopesWithCounter.getOrPut(klass, ::mutableMapOf)
+            .getOrPut(this.name) { ScopeWithCounter(this) }
     }
 
     abstract class LocalContext {
