@@ -394,8 +394,6 @@ internal class SymbolLightAccessorMethod private constructor(
             private val hasReturnValueClass: Boolean,
             private val jvmExposeBoxedMode: JvmExposeBoxedMode,
         ) {
-            val hasValueClassInSignature: Boolean get() = hasNonReturnValueClass || hasReturnValueClass
-
             fun jvmExposeBoxedMode(accessor: KaPropertyAccessorSymbol): JvmExposeBoxedMode =
                 if (accessor.hasJvmExposeBoxedAnnotation()) JvmExposeBoxedMode.EXPLICIT else jvmExposeBoxedMode
 
