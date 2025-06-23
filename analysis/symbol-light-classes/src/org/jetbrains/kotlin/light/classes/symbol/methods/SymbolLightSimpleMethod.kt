@@ -262,6 +262,7 @@ internal class SymbolLightSimpleMethod private constructor(
             val exposeBoxedMode = jvmExposeBoxedMode(functionSymbol)
             val hasValueClassInReturnType = hasValueClassInReturnType(functionSymbol)
 
+            val isSuspend = functionSymbol.isSuspend
             createMethodsJvmOverloadsAware(
                 declaration = functionSymbol,
                 methodIndexBase = methodIndex,
@@ -278,6 +279,7 @@ internal class SymbolLightSimpleMethod private constructor(
                     hasValueClassInReturnType = hasValueClassInReturnType,
                     hasMangledNameDueValueClasses = hasMangledNameDueValueClassesInSignature,
                     hasJvmNameAnnotation = hasJvmNameAnnotation,
+                    isSuspend = isSuspend,
                 )
 
                 if (generationResult.isBoxedMethodRequired) {
