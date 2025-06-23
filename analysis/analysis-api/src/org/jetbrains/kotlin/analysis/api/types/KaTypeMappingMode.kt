@@ -55,7 +55,7 @@ public enum class KaTypeMappingMode {
     VALUE_PARAMETER,
 
     /**
-     * The same as [VALUE_PARAMETER], but with boxed types.
+     * The same as [VALUE_PARAMETER], but value classes are boxed.
      */
     VALUE_PARAMETER_BOXED,
 }
