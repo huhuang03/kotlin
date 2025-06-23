@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.name.JvmStandardClassIds
 
 /**
  * The auto-generated boxed methods in [JvmExposeBoxedMode.IMPLICIT][org.jetbrains.kotlin.light.classes.symbol.methods.JvmExposeBoxedMode.IMPLICIT] mode
- * doesn't have [JvmExposeBoxed] annotations by default, so they should be added manually.
+ * don't have [JvmExposeBoxed] annotations by default, so they should be added manually.
  *
  * @see org.jetbrains.kotlin.light.classes.symbol.methods.JvmExposeBoxedMode
  */
