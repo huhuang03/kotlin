@@ -101,7 +101,7 @@ fun IrSimpleTypeImpl(
     abbreviation: IrTypeAbbreviation? = null,
     originalKotlinType: KotlinType? = null,
 ): IrSimpleType {
-    val realNullablility = if (classifier !is IrTypeParameterSymbol && nullability == SimpleTypeNullability.NOT_SPECIFIED)
+    val realNullability = if (classifier !is IrTypeParameterSymbol && nullability == SimpleTypeNullability.NOT_SPECIFIED)
         SimpleTypeNullability.DEFINITELY_NOT_NULL
     else
         nullability
@@ -109,7 +109,7 @@ fun IrSimpleTypeImpl(
         originalKotlinType != null || abbreviation != null -> {
             IrSimpleTypeFullImpl(
                 classifier,
-                realNullablility,
+                realNullability,
                 arguments.compactIfPossible(),
                 annotations.compactIfPossible(),
                 originalKotlinType,
@@ -119,14 +119,14 @@ fun IrSimpleTypeImpl(
         annotations.isEmpty() && arguments.isEmpty() -> {
             IrSimpleTypeOnlyClassifierImpl(
                 classifier,
-                realNullablility,
+                realNullability,
             )
         }
         else -> {
             IrSimpleTypeImpl(
                 constructorIndicator = null,
                 classifier,
-                realNullablility,
+                realNullability,
                 arguments.compactIfPossible(),
                 annotations.compactIfPossible(),
             )
