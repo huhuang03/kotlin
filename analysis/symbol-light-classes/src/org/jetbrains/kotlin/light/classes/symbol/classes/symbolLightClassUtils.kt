@@ -172,12 +172,12 @@ internal fun interface LightMethodCreator {
      *
      * @param methodIndex The index of the method to be created.
      * @param valueParameterPickMask An optional [BitSet] that specifies arguments to pick; can be null
-     * @param hasValueClassInSignature Indicates whether the method has a value class in its signature. **Note**: the return type of the method won't be checked
+     * @param hasValueClassInParameterType Indicates whether the method has a value class in its parameters.
      */
     fun create(
         methodIndex: Int,
         valueParameterPickMask: BitSet?,
-        hasValueClassInSignature: Boolean,
+        hasValueClassInParameterType: Boolean,
     )
 }
 
@@ -188,7 +188,7 @@ internal fun <T : KaFunctionSymbol> KaSession.createMethodsJvmOverloadsAware(
     lightMethodCreator: LightMethodCreator,
 ) {
     val hasJvmOverloadsAnnotation = declaration.hasJvmOverloadsAnnotation()
-    val hasValueClassInRestSignature = hasValueClassInSignature(
+    val hasValueClassInParameterType = hasValueClassInSignature(
         declaration,
         // value parameters would be checked separately for each overload
         skipValueParametersCheck = hasJvmOverloadsAnnotation,
@@ -199,7 +199,7 @@ internal fun <T : KaFunctionSymbol> KaSession.createMethodsJvmOverloadsAware(
 
     val valueParameters = declaration.valueParameters
     val parameterCount = valueParameters.size
-    val valueClassMask = if (hasValueClassInRestSignature) {
+    val valueClassMask = if (hasValueClassInParameterType) {
         // Optimization to avoid redundant iteration if the signature anyway has a value class
         null
     } else {
@@ -216,7 +216,7 @@ internal fun <T : KaFunctionSymbol> KaSession.createMethodsJvmOverloadsAware(
     lightMethodCreator.create(
         methodIndex = methodIndexBase,
         valueParameterPickMask = null,
-        hasValueClassInSignature = hasValueClassInRestSignature || valueClassMask?.isEmpty == false,
+        hasValueClassInParameterType = hasValueClassInParameterType || valueClassMask?.isEmpty == false,
     )
 
     if (!hasJvmOverloadsAnnotation) return
@@ -233,7 +233,7 @@ internal fun <T : KaFunctionSymbol> KaSession.createMethodsJvmOverloadsAware(
         lightMethodCreator.create(
             methodIndex = methodIndex++,
             valueParameterPickMask = pickMask.copy(),
-            hasValueClassInSignature = hasValueClassInRestSignature || valueClassMask?.intersects(pickMask) == true,
+            hasValueClassInParameterType = hasValueClassInParameterType || valueClassMask?.intersects(pickMask) == true,
         )
     }
 }

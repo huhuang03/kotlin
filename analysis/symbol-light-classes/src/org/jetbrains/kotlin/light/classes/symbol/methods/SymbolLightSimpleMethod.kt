@@ -259,10 +259,10 @@ internal class SymbolLightSimpleMethod private constructor(
             createMethodsJvmOverloadsAware(
                 declaration = functionSymbol,
                 methodIndexBase = methodIndex,
-            ) { methodIndex, valueParameterPickMask, hasValueClassInSignature ->
+            ) { methodIndex, valueParameterPickMask, hasValueClassInParameterType ->
                 when {
                     // Unmangled name -> regular method is needed
-                    !hasValueClassInSignature && (isTopLevel || !hasValueClassInReturnType) || hasJvmNameAnnotation -> {
+                    !hasValueClassInParameterType && (isTopLevel || !hasValueClassInReturnType) || hasJvmNameAnnotation -> {
                         result += SymbolLightSimpleMethod(
                             functionSymbol = functionSymbol,
                             lightMemberOrigin = lightMemberOrigin,
