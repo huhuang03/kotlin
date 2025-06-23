@@ -606,13 +606,10 @@ class JavaClassUseSiteMemberScope(
 
 
         // It's a copy like contains(T) or contains(String) in Java, we perform "unerasing" here
-        val (declaredFunctionCopyWithParameterTypesFromSupertype, allParametersAreAny) = session.renamedFunctionsCache
+        val declaredFunctionCopyWithParameterTypesFromSupertype = session.renamedFunctionsCache
             .declaredFunctionCopyWithParameterTypesFromSupertypeCache
             .getValue(explicitlyDeclaredFunctionWithErasedValueParameters to name, relevantFunctionFromSupertypes)
-
-        if (allParametersAreAny) {
-            return null
-        }
+            ?: return null
 
         // E.g. contains(String) from Java, if any
         val accidentalOverrideWithDeclaredFunction = explicitlyDeclaredFunction?.takeIf {
@@ -1098,7 +1095,7 @@ class JavaClassUseSiteMemberScope(
             explicitlyDeclaredFunctionWithErasedValueParameters: FirNamedFunctionSymbol,
             name: Name,
             relevantFunctionFromSupertypes: FirNamedFunctionSymbol,
-        ): Pair<FirNamedFunctionSymbol, Boolean> {
+        ): FirNamedFunctionSymbol? {
             /**
              * See the comment to [shouldBeVisibleAsOverrideOfBuiltInWithErasedValueParameters] function
              * It explains why we should check value parameters for `Any` type
@@ -1123,7 +1120,7 @@ class JavaClassUseSiteMemberScope(
             }.apply {
                 initialSignatureAttr = explicitlyDeclaredFunctionWithErasedValueParameters
             }
-            return method.symbol to allParametersAreAny
+            return method.symbol.takeIf { !allParametersAreAny }
         }
 
         fun createAccidentalOverrideWithDeclaredFunctionHiddenCopy(
@@ -1157,7 +1154,7 @@ class FirRenamedForOverrideSymbolsStorage(cachesFactory: FirCachesFactory) : Fir
 
     data class RenamedFunctionCreationContext(val klass: FirJavaClass, val isHidden: Boolean, val origin: FirDeclarationOrigin?)
 
-    val declaredFunctionCopyWithParameterTypesFromSupertypeCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, Pair<FirNamedFunctionSymbol, Boolean>, FirNamedFunctionSymbol> =
+    val declaredFunctionCopyWithParameterTypesFromSupertypeCache: FirCache<Pair<FirNamedFunctionSymbol, Name>, FirNamedFunctionSymbol?, FirNamedFunctionSymbol> =
         cachesFactory.createCache { (explicitlyDeclaredFunctionWithErasedValueParameters, name), relevantFunctionFromSupertypes ->
             JavaClassUseSiteMemberScope.createDeclaredFunctionCopyWithParameterTypesFromSupertype(explicitlyDeclaredFunctionWithErasedValueParameters, name, relevantFunctionFromSupertypes)
         }
