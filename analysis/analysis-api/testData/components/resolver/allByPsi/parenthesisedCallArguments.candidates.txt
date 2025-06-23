@@ -307,7 +307,7 @@ KtCallExpression(210,220): 'foo(((5)))'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        ((5)) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -342,7 +342,7 @@ KtCallExpression(210,220): 'foo(((5)))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        ((5)) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -377,7 +377,7 @@ KtNameReferenceExpression(210,213): 'foo'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        ((5)) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -412,7 +412,7 @@ KtNameReferenceExpression(210,213): 'foo'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        ((5)) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -607,7 +607,7 @@ KtCallExpression(244,263): 'foo((((5 as Int))))'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 as Int -> (KaVariableSignature:
+        (((5 as Int))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -642,7 +642,7 @@ KtCallExpression(244,263): 'foo((((5 as Int))))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 as Int -> (KaVariableSignature:
+        (((5 as Int))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -677,7 +677,7 @@ KtNameReferenceExpression(244,247): 'foo'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 as Int -> (KaVariableSignature:
+        (((5 as Int))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -712,7 +712,7 @@ KtNameReferenceExpression(244,247): 'foo'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 as Int -> (KaVariableSignature:
+        (((5 as Int))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -943,10 +943,10 @@ KtCallExpression(297,365): 'foo((((when (((value))) {'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        when (((value))) {
+        (((when (((value))) {
                 1 -> 1
                 else -> 2
-            } -> (KaVariableSignature:
+            }))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -981,10 +981,10 @@ KtCallExpression(297,365): 'foo((((when (((value))) {'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        when (((value))) {
+        (((when (((value))) {
                 1 -> 1
                 else -> 2
-            } -> (KaVariableSignature:
+            }))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1019,10 +1019,10 @@ KtNameReferenceExpression(297,300): 'foo'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        when (((value))) {
+        (((when (((value))) {
                 1 -> 1
                 else -> 2
-            } -> (KaVariableSignature:
+            }))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -1057,10 +1057,10 @@ KtNameReferenceExpression(297,300): 'foo'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        when (((value))) {
+        (((when (((value))) {
                 1 -> 1
                 else -> 2
-            } -> (KaVariableSignature:
+            }))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1155,7 +1155,7 @@ KtCallExpression(371,391): 'foo(((((++value)))))'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        ++value -> (KaVariableSignature:
+        ((((++value)))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -1190,7 +1190,7 @@ KtCallExpression(371,391): 'foo(((((++value)))))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        ++value -> (KaVariableSignature:
+        ((((++value)))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1225,7 +1225,7 @@ KtNameReferenceExpression(371,374): 'foo'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        ++value -> (KaVariableSignature:
+        ((((++value)))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -1260,7 +1260,7 @@ KtNameReferenceExpression(371,374): 'foo'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        ++value -> (KaVariableSignature:
+        ((((++value)))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1397,14 +1397,14 @@ KtCallExpression(397,423): 'fooVararg((5), (5 as Int))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        (5) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
           symbol = vararg x: kotlin.Int
           contextParameters = []
           callableId = null),
-        5 as Int -> (KaVariableSignature:
+        (5 as Int) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1439,14 +1439,14 @@ KtNameReferenceExpression(397,406): 'fooVararg'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        5 -> (KaVariableSignature:
+        (5) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
           symbol = vararg x: kotlin.Int
           contextParameters = []
           callableId = null),
-        5 as Int -> (KaVariableSignature:
+        (5 as Int) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -1839,7 +1839,7 @@ KtCallExpression(496,520): 'fooLambda((({ _ -> 5})))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        { _ -> 5} -> (KaVariableSignature:
+        (({ _ -> 5})) -> (KaVariableSignature:
           name = lambda
           receiverType = null
           returnType = kotlin.Function1<@R|kotlin.ParameterName|(name = String(x))  kotlin.Int, kotlin.Int>
@@ -1874,7 +1874,7 @@ KtNameReferenceExpression(496,505): 'fooLambda'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        { _ -> 5} -> (KaVariableSignature:
+        (({ _ -> 5})) -> (KaVariableSignature:
           name = lambda
           receiverType = null
           returnType = kotlin.Function1<@R|kotlin.ParameterName|(name = String(x))  kotlin.Int, kotlin.Int>
@@ -1939,7 +1939,7 @@ KtCallExpression(526,548): 'foo((((MySam { 5 }))))'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        MySam { 5 } -> (KaVariableSignature:
+        (((MySam { 5 }))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -1973,7 +1973,7 @@ KtCallExpression(526,548): 'foo((((MySam { 5 }))))'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        MySam { 5 } -> (KaVariableSignature:
+        (((MySam { 5 }))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int
@@ -2009,7 +2009,7 @@ KtNameReferenceExpression(526,529): 'foo'
   KaApplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        MySam { 5 } -> (KaVariableSignature:
+        (((MySam { 5 }))) -> (KaVariableSignature:
           name = sam
           receiverType = null
           returnType = MySam
@@ -2043,7 +2043,7 @@ KtNameReferenceExpression(526,529): 'foo'
   KaInapplicableCallCandidateInfo:
     candidate = KaSimpleFunctionCall:
       argumentMapping = {
-        MySam { 5 } -> (KaVariableSignature:
+        (((MySam { 5 }))) -> (KaVariableSignature:
           name = x
           receiverType = null
           returnType = kotlin.Int

@@ -75,6 +75,7 @@ import org.jetbrains.kotlin.psi.KtPsiUtil.deparenthesize
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
 import org.jetbrains.kotlin.psi.psiUtil.getPossiblyQualifiedCallExpression
 import org.jetbrains.kotlin.psi.psiUtil.getQualifiedElementSelector
+import org.jetbrains.kotlin.psi.psiUtil.parents
 import org.jetbrains.kotlin.resolve.calls.inference.buildCurrentSubstitutor
 import org.jetbrains.kotlin.resolve.calls.tasks.ExplicitReceiverKind
 import org.jetbrains.kotlin.toKtPsiSourceElement
@@ -1612,7 +1613,13 @@ internal class KaFirResolver(
             // FirBlock is a fake container for desugared expressions like `++index` or `++list[0]`
             is FirBlock -> psi as? KtExpression
             else -> realPsi as? KtExpression
-        }
+        }?.parenthesisedKtExpressionForCallArgumentOrSelf()
+    }
+
+    private fun KtExpression.parenthesisedKtExpressionForCallArgumentOrSelf(): KtExpression {
+        val correctedArgument = this.parents.takeWhile { it is KtParenthesizedExpression }.lastOrNull() ?: this
+
+        return correctedArgument as KtExpression
     }
 
     private inline fun <R> wrapError(element: KtElement, action: () -> R): R {
