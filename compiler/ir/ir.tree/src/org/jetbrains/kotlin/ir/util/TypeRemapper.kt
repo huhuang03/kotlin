@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.ir.util
 
 import org.jetbrains.kotlin.ir.declarations.IrTypeParametersContainer
-import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.types.IrStarProjection
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.IrTypeArgument
@@ -30,9 +29,9 @@ abstract class AbstractTypeRemapper() : TypeRemapper {
     protected fun remapTypeArguments(arguments: List<IrTypeArgument>): List<IrTypeArgument>? {
         var anyChanged = false
         val result = arguments.memoryOptimizedMap {
-            val r = remapTypeArgument(it)
-            if (r != null) anyChanged = true
-            r ?: it
+            val remappedArgument = remapTypeArgument(it)
+            if (remappedArgument != null) anyChanged = true
+            remappedArgument ?: it
         }
         return if (anyChanged) result else null
     }
