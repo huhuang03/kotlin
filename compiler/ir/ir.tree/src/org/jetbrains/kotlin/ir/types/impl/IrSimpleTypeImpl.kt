@@ -49,7 +49,7 @@ abstract class IrDelegatedSimpleType : IrSimpleType() {
     override val annotations: List<IrConstructorCall>
         get() = delegate.annotations
 
-    override fun equals(other: Any?) = delegate == other
+    override fun equals(other: Any?): Boolean = delegate == other
     override fun hashCode(): Int = delegate.hashCode()
     override fun toString(): String = delegate.toString()
 }
