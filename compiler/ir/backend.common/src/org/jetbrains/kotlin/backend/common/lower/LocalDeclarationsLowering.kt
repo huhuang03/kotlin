@@ -1303,8 +1303,8 @@ open class LocalDeclarationsLowering(
                                 }
                             }
                                 ?: (irElement as? IrBlock)?.let { OwnerForLoweredDeclaration.Block(irElement, closestParent!!) }
-                                ?: (enclosingScope.irElement as? IrFunction)?.let {
-                                    OwnerForLoweredDeclaration.DeclarationContainer(enclosingScope.irElement.parentClassOrNull as IrDeclarationContainer)
+                                ?: (enclosingScope.irElement as? IrFunction)?.let { enclosingFunction ->
+                                    OwnerForLoweredDeclaration.DeclarationContainer(enclosingFunction.parentClassOrNull!!)
                                 }
                                 ?: OwnerForLoweredDeclaration.DeclarationContainer(enclosingScope.irElement as IrDeclarationContainer)
                         localFunctions[declaration] = LocalFunctionContext(
