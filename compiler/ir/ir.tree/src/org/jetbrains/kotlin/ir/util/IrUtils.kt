@@ -797,13 +797,20 @@ fun IrValueParameter.copyTo(
     isNoinline: Boolean = this.isNoinline,
     isAssignable: Boolean = this.isAssignable,
     kind: IrParameterKind = this.kind,
+    remapDefaultValueSymbolMap: Map<IrValueParameterSymbol, IrValueParameterSymbol> = mapOf(),
 ): IrValueParameter {
     val symbol = IrValueParameterSymbolImpl()
     val defaultValueCopy = defaultValue?.let { originalDefault ->
         factory.createExpressionBody(
             startOffset = originalDefault.startOffset,
             endOffset = originalDefault.endOffset,
-            expression = originalDefault.expression.deepCopyWithSymbols(irFunction),
+            expression = originalDefault.expression.run {
+                val remapper = object : SymbolRemapper.Empty() {
+                    override fun getReferencedValueParameter(symbol: IrValueParameterSymbol): IrValueSymbol =
+                        remapDefaultValueSymbolMap[symbol] ?: symbol
+                }
+                transform(DeepCopyIrTreeWithSymbols(remapper, null), null).patchDeclarationParents(irFunction)
+            },
         )
     }
     return factory.createValueParameter(
@@ -927,6 +934,7 @@ fun IrFunction.copyValueParametersToStatic(
     val target = this
     assert(target.parameters.isEmpty())
 
+    val parameterMapping = mutableMapOf<IrValueParameterSymbol, IrValueParameterSymbol>()
     target.parameters += source.parameters.map { param ->
         val name = when (param.kind) {
             IrParameterKind.DispatchReceiver -> Name.identifier("\$this")
@@ -953,7 +961,10 @@ fun IrFunction.copyValueParametersToStatic(
             type = type,
             name = name,
             kind = IrParameterKind.Regular,
-        )
+            remapDefaultValueSymbolMap = parameterMapping
+        ).also {
+            parameterMapping[param.symbol] = it.symbol
+        }
     }
 }
 
