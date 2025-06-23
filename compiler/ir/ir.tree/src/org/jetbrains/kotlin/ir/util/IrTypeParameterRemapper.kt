@@ -26,13 +26,13 @@ open class IrTypeParameterRemapper(
         if (type !is IrSimpleType) return null
         val classifier = type.classifier.remap()
         val arguments = remapTypeArguments(type.arguments)
-        if (classifier == type.classifier && arguments == type.arguments && type.annotations.isEmpty() && type.abbreviation == null) {
+        if (classifier === type.classifier && arguments == null && type.annotations.isEmpty() && type.abbreviation == null) {
             return null
         }
         return IrSimpleTypeImpl(
-            type.classifier.remap(),
+            classifier,
             type.nullability,
-            type.arguments.memoryOptimizedMap { it.remap() },
+            arguments ?: type.arguments,
             type.annotations,
             type.abbreviation?.remap()
         ).apply {
