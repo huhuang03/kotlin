@@ -61,6 +61,7 @@ open class KotlinApiPlugin : KotlinBaseApiPlugin() {
 }
 
 private fun Project.registerVariantImplementations() {
+    // gradle = project.getGradle()
     val factories = VariantImplementationFactoriesConfigurator.get(gradle)
     factories[ProjectIsolationStartParameterAccessor.Factory::class] =
         ProjectIsolationStartParameterAccessorG76.Factory()

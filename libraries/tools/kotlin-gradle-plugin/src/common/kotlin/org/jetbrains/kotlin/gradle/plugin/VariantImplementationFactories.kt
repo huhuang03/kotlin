@@ -49,6 +49,7 @@ internal abstract class VariantImplementationFactoriesConfigurator : BuildServic
             gradle: Gradle
         ): Provider<VariantImplementationFactoriesConfigurator> {
             // Use class loader hashcode in case there are multiple class loaders in the same build
+            // how did you create a VariantImplementationFactoriesConfigurator, it's abstracted.
             return gradle.sharedServices
                 .registerIfAbsent(
                     "variant_impl_factories_configurator_${VariantImplementationFactoriesConfigurator::class.java.classLoader.hashCode()}",
