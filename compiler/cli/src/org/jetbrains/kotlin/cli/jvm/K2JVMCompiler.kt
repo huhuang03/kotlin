@@ -39,6 +39,7 @@ import org.jetbrains.kotlin.util.PhaseType
 import org.jetbrains.kotlin.utils.KotlinPaths
 import java.io.File
 
+// so you are the real compiler?
 class K2JVMCompiler : CLICompiler<K2JVMCompilerArguments>() {
     override val platform: TargetPlatform
         get() = JvmPlatforms.defaultJvmPlatform
